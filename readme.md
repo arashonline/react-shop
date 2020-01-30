@@ -1,6 +1,7 @@
 expo install expo-font
 npm install --save @expo/vector-icons
 
+npm install --save redux react-redux
 npm install --save react-navigation
 expo install react-native-gesture-handler react-native-reanimated
 expo install react-navigation-stack
@@ -17,7 +18,6 @@ npm install react-navigation-material-bottom-tabs
 
 npm install --save react-navigation-drawer
 
-npm install --save redux react-redux
 #######################################################
 
 npm install --save @expo/vector-icons react-navigation react-native-paper
