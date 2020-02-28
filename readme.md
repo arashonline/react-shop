@@ -25,3 +25,5 @@ npm install --save @expo/vector-icons react-navigation react-native-paper
 expo install expo-font react-native-gesture-handler react-native-reanimated react-navigation-stack react-native-safe-area-view react-native-safe-area-context @react-native-community/masked-view
 
 npm install --save react-native-screens react-navigation-header-buttons react-navigation-tabs react-navigation-header-buttons react-navigation-tabs react-navigation-material-bottom-tabs react-navigation-drawer redux react-redux
+
+npm install --save moment
