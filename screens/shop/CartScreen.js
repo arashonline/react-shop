@@ -4,8 +4,11 @@ import { View, Text, FlatList, StyleSheet, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
-import * as cartActions from '../../store/actions/cart'
-import * as ordersActions from '../../store/actions/orders'
+import * as cartActions from '../../store/actions/cart';
+import * as ordersActions from '../../store/actions/orders';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
+import HeaderButton from '../../components/UI/HeaderButton';
 
 const CartScreen = props => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -33,7 +36,7 @@ const CartScreen = props => {
         <Button
           color={Colors.accent}
           title="Order Now"
-          disabled={CartItems.length === 0} 
+          disabled={cartItems.length === 0} 
           onPress={()=>{
             dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))
           }}
@@ -61,7 +64,7 @@ const CartScreen = props => {
 CartScreen.navigationOptions = navData => {
   return {
     headerTitle: 'Your Cart',
-    headerLeft: (
+    headerLeft: ()=>{return (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title="Menu"
@@ -71,7 +74,7 @@ CartScreen.navigationOptions = navData => {
             }}
           />
         </HeaderButtons>
-      ),
+      )},
   };
 };
 
