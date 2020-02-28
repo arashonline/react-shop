@@ -57,6 +57,25 @@ const CartScreen = props => {
   );
 };
 
+
+CartScreen.navigationOptions = navData => {
+  return {
+    headerTitle: 'Your Cart',
+    headerLeft: (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            onPress={() => {
+              navData.navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
+  };
+};
+
+
 const styles = StyleSheet.create({
   screen: {
     margin: 20
