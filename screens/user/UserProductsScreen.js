@@ -17,21 +17,18 @@ const UserProductsScreen = props => {
   };
 
   
-  const deleteHandler = (id)=>{
-    Alert.alert('Are you sure?','Do you really want to delete this item?',[
-        {
-            text: 'No',
-            style='default'
-        },
-        {
-            text: 'Yes',
-            style='destructive',
-            onPress: ()=> {
-              dispatch(productsActions.deleteProduct(id));
-            }
-        },
-    ])
-}
+  const deleteHandler = (id) => {
+    Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
+      { text: 'No', style: 'default' },
+      {
+        text: 'Yes',
+        style: 'destructive',
+        onPress: () => {
+          dispatch(productsActions.deleteProduct(id));
+        }
+      }
+    ]);
+  };
 
   return (
     <FlatList
