@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import { StyleSheet } from 'react-native';
 // combineReducers so that we can create one root reducer
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware} from 'redux';
 import { Provider } from 'react-redux';
 
 import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
 // import { composeWithDevTools } from 'redux-devtools-extension'
+import ReduxThunk from 'redux-thunk';
 
 import productReducer from './store/reducers/products';
 import cartReducer from './store/reducers/cart';
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(
-  rootReducer
+  rootReducer,
+  applyMiddleware(ReduxThunk)
   // ,composeWithDevTools()
   );
 
