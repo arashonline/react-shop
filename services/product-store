@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/product/store?XDEBUG_SESSION_START=11395
+Content-Type: application/json
+
+{
+    "title":"title",
+    "description":"title",
+    "imageUrl":"title",
+    "price":20
+}
