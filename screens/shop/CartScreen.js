@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
 import Card from "../../components/UI/Card";
-import * as cartActions from '../../store/actions/cart';
-import * as ordersActions from '../../store/actions/orders';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import * as cartActions from "../../store/actions/cart";
+import * as ordersActions from "../../store/actions/orders";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import HeaderButton from '../../components/UI/HeaderButton';
+import HeaderButton from "../../components/UI/HeaderButton";
 
 const CartScreen = props => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -24,7 +24,9 @@ const CartScreen = props => {
         sum: state.cart.items[key].sum
       });
     }
-    return transformedCartItems.sort((a,b)=> a.productId > b.productId?1:-1);
+    return transformedCartItems.sort((a, b) =>
+      a.productId > b.productId ? 1 : -1
+    );
   });
   const dispatch = useDispatch();
   return (
@@ -32,14 +34,16 @@ const CartScreen = props => {
       <Card style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{" "}
-          <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2)* 100)/100}</Text>
+          <Text style={styles.amount}>
+            ${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
+          </Text>
         </Text>
         <Button
           color={Colors.accent}
           title="Order Now"
-          disabled={cartItems.length === 0} 
-          onPress={()=>{
-            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))
+          disabled={cartItems.length === 0}
+          onPress={() => {
+            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
           }}
         />
       </Card>
@@ -52,8 +56,8 @@ const CartScreen = props => {
             quantity={itemData.item.quantity}
             amount={itemData.item.sum}
             deletable
-            onRemove={()=>{
-              dispatch(cartActions.removeFromCart(itemData.item.productId))
+            onRemove={() => {
+              dispatch(cartActions.removeFromCart(itemData.item.productId));
             }}
           />
         )}
@@ -62,24 +66,24 @@ const CartScreen = props => {
   );
 };
 
-
 CartScreen.navigationOptions = navData => {
   return {
-    headerTitle: 'Your Cart',
-    headerLeft: ()=>{return (
+    headerTitle: "Your Cart",
+    headerLeft: () => {
+      return (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title="Menu"
-            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
             onPress={() => {
               navData.navigation.toggleDrawer();
             }}
           />
         </HeaderButtons>
-      )},
+      );
+    }
   };
 };
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    padding: 10,
+    padding: 10
   },
   summaryText: {
     fontFamily: "open-sans-bold",
