@@ -27,3 +27,6 @@ expo install expo-font react-native-gesture-handler react-native-reanimated reac
 npm install --save react-native-screens react-navigation-header-buttons react-navigation-tabs react-navigation-header-buttons react-navigation-tabs react-navigation-material-bottom-tabs react-navigation-drawer redux react-redux
 
 npm install --save moment
+
+for changing action middle-ware
+npm install --save redux-thunk
