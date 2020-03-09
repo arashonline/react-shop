@@ -1,6 +1,7 @@
 export const ADD_ORDER = 'ADD_ORDER';
 
-const createOrderUrl = "http://192.168.1.107:7009/api/order/add?XDEBUG_SESSION_START=13069";
+// const createOrderUrl = "http://192.168.1.107:7009/api/order/add?XDEBUG_SESSION_START=13069";
+const createOrderUrl = "http://192.168.1.107:7009/api/order/add";
 
 export const addOrder = (cartItems, totalAmount) => {
     return async  dispatch => {
