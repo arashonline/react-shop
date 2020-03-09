@@ -56,6 +56,10 @@ export const deleteProduct = productId => {
         id:productId
       })
     });
+
+    if(!response.ok){
+      throw 'Something went wrong'
+    }
     const resData = await response.json();
     console.log(`product with id ${productId} deleted:${resData}`)
     dispatch( { type: DELETE_PRODUCT, pid: productId });
@@ -77,6 +81,11 @@ export const createProduct = (title, description, imageUrl, price) => {
         price
       })
     });
+
+    
+    if(!response.ok){
+      throw 'Something went wrong'
+    }
 
     const resData = await response.json();
     console.log(resData);
