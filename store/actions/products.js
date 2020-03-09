@@ -10,25 +10,36 @@ const getProductsUrl = "http://192.168.1.107:7009//api/products";
 export const fetchProducts = () => {
   return async dispatch => {
     // any async code you want!
-    const response = await fetch(getProductsUrl);
+    try{
+      const response = await fetch(getProductsUrl);
 
-    const resData = await response.json();
-    const loadedProducts = [];
+      if(!response.ok){
+        throw new Error('Something went wrong!')
+      }
 
-    for(const key in resData){
-      loadedProducts.push( new Product(
-        resData[key].id,
-        resData[key].user_id,
-        resData[key].title,
-        resData[key].imageUrl,
-        resData[key].description,
-        resData[key].price
-      ))
+      const resData = await response.json();
+      const loadedProducts = [];
+  
+      for(const key in resData){
+        loadedProducts.push( new Product(
+          resData[key].id,
+          resData[key].user_id,
+          resData[key].title,
+          resData[key].imageUrl,
+          resData[key].description,
+          resData[key].price
+        ))
+      }
+  
+      console.log(loadedProducts)
+  
+      dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+    }catch(err){
+      // send to analytic server
+      throw err;
+
     }
-
-    console.log(loadedProducts)
-
-    dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+    
   };
 };
 
