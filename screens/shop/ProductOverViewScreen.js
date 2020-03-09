@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import { FlatList, Button, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, Button, Platform, ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -13,11 +13,17 @@ import HeaderButton from '../../components/UI/HeaderButton';
 
 
 const ProductOverviewScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
   const products = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(productsActions.fetchProducts());
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      await dispatch(productsActions.fetchProducts());
+      setIsLoading(false);
+    }
+    loadProducts();
   }, [dispatch]);
 
   const selectItemHandler = (id, title) => {
@@ -27,6 +33,17 @@ const ProductOverviewScreen = props => {
     });
   };
 
+  if (isLoading) {
+    return (<View style={styles.centered}>
+      <ActivityIndicator size='large' color={Colors.primary} />
+    </View>)
+  }
+
+  if(!isLoading && products.length === 0){
+    return (<View style={styles.centered}>
+      <Text>No products found.</Text>
+    </View>)
+  }
   return (
     <FlatList
       data={products}
@@ -80,4 +97,10 @@ ProductOverviewScreen.navigationOptions = navData => {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1, justifyContent: 'center', alignItems: 'center'
+  }
+})
 export default ProductOverviewScreen;
