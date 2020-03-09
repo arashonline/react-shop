@@ -1,0 +1,6 @@
+POST http://192.168.1.107:7009/api/orders?XDEBUG_SESSION_START=14982
+Content-Type: application/json
+
+{
+    "user_id":1
+}
