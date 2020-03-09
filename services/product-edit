@@ -1,0 +1,10 @@
+PATCH http://192.168.1.107:7009/api/product/edit?XDEBUG_SESSION_START=16726
+Content-Type: application/json
+
+{
+    "id":1,
+    "title":"title",
+    "description":"title",
+    "imageUrl":"title2",
+    "price":20
+}

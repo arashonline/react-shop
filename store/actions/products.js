@@ -5,6 +5,7 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCTS = "SET_PRODUCTS";
 
 const createProductUrl = "http://192.168.1.107:7009//api/product/add";
+const editProductUrl = "http://192.168.1.107:7009//api/product/edit";
 const getProductsUrl = "http://192.168.1.107:7009//api/products";
 
 export const fetchProducts = () => {
@@ -80,13 +81,28 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      title,
-      description,
-      imageUrl
-    }
-  };
+  return async dispatch =>{
+    const response = await fetch(editProductUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id,
+        title,
+        description,
+        imageUrl
+      })
+    });
+    dispatch( {
+      type: UPDATE_PRODUCT,
+      pid: id,
+      productData: {
+        title,
+        description,
+        imageUrl
+      }
+    });
+  }
+  
 };
