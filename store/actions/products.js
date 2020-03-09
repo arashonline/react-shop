@@ -6,23 +6,24 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 
 const createProductUrl = "http://192.168.1.107:7009//api/product/add";
 const editProductUrl = "http://192.168.1.107:7009//api/product/edit";
+const deleteProductUrl = "http://192.168.1.107:7009//api/product/delete";
 const getProductsUrl = "http://192.168.1.107:7009//api/products";
 
 export const fetchProducts = () => {
   return async dispatch => {
     // any async code you want!
-    try{
+    try {
       const response = await fetch(getProductsUrl);
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error('Something went wrong!')
       }
 
       const resData = await response.json();
       const loadedProducts = [];
-  
-      for(const key in resData){
-        loadedProducts.push( new Product(
+
+      for (const key in resData) {
+        loadedProducts.push(new Product(
           resData[key].id,
           resData[key].user_id,
           resData[key].title,
@@ -31,21 +32,34 @@ export const fetchProducts = () => {
           resData[key].price
         ))
       }
-  
+
       console.log(loadedProducts)
-  
+
       dispatch({ type: SET_PRODUCTS, products: loadedProducts });
-    }catch(err){
+    } catch (err) {
       // send to analytic server
       throw err;
 
     }
-    
+
   };
 };
 
 export const deleteProduct = productId => {
-  return { type: DELETE_PRODUCT, pid: productId };
+  return async dispatch => {
+    const response = await fetch(deleteProductUrl, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id:productId
+      })
+    });
+    const resData = await response.json();
+    console.log(`product with id ${productId} deleted:${resData}`)
+    dispatch( { type: DELETE_PRODUCT, pid: productId });
+  }
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
@@ -81,7 +95,7 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async dispatch =>{
+  return async dispatch => {
     const response = await fetch(editProductUrl, {
       method: "PATCH",
       headers: {
@@ -94,7 +108,7 @@ export const updateProduct = (id, title, description, imageUrl) => {
         imageUrl
       })
     });
-    dispatch( {
+    dispatch({
       type: UPDATE_PRODUCT,
       pid: id,
       productData: {
@@ -104,5 +118,5 @@ export const updateProduct = (id, title, description, imageUrl) => {
       }
     });
   }
-  
+
 };
