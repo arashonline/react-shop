@@ -30,3 +30,5 @@ npm install --save moment
 
 for changing action middle-ware
 npm install --save redux-thunk
+
+npm install --save expo-linear-gradient
