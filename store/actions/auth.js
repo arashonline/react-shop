@@ -20,12 +20,11 @@ export const signup = (name, email, password) => {
       })
     });
 
-    if (!response.ok) {
-      console.log(response);
-      throw new Error("Something went wrong!");
-    }
 
     const resData = await response.json();
+    if (!response.ok) {
+        throw new Error(resData.message);
+      }
     console.log(resData);
     dispatch({ type: SIGNUP });
   };
@@ -46,11 +45,12 @@ export const login = ( email, password) => {
       })
     });
 
-    if (!response.ok) {
-      throw new Error("Something went wrong!");
-    }
+   
 
     const resData = await response.json();
+    if (!response.ok) {
+      throw new Error(resData.message);
+    }
     console.log(resData);
     dispatch({ type: LOGIN });
   };

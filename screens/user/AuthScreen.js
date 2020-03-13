@@ -1,10 +1,12 @@
-import React, { useReducer, useCallback, useState } from "react";
+import React, { useReducer, useCallback, useState, useEffect } from "react";
 import {
   ScrollView,
   View,
   KeyboardAvoidingView,
   StyleSheet,
-  Button
+  Button,
+  ActivityIndicator,
+  Alert
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch } from "react-redux";
@@ -40,6 +42,8 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false)
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
 
@@ -57,7 +61,7 @@ const AuthScreen = props => {
     formIsValid: false
   });
 
-  const authHandler = () => {
+  const authHandler = async () => {
     let action;
     if(isSignup){
       action = authActions.signup(
@@ -71,9 +75,20 @@ const AuthScreen = props => {
         formState.inputValues.password
       );
     }
-    dispatch(action);
-    
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(action);
+    } catch (err) {
+      setError(err.message);      
+    }
+    setIsLoading(false);
   };
+  useEffect(()=>{
+    if(error){
+      Alert.alert('An error occurred!',error, [{text:'OK'}])
+    }
+  },[error])
 
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -132,11 +147,11 @@ const AuthScreen = props => {
               initialValue=""
             />
             <View style={styles.buttonContainer}>
-              <Button
+              {isLoading?<ActivityIndicator size='small' color={Colors.primary} />:<Button
                 title={isSignup?'Sign Up':"Login"}
                 color={Colors.primary}
                 onPress={authHandler}
-              />
+              />}
             </View>
             <View style={styles.buttonContainer}>
               <Button
