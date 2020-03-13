@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from "react";
+import React, { useReducer, useCallback, useState } from "react";
 import {
   ScrollView,
   View,
@@ -40,6 +40,7 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = props => {
+  const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -56,14 +57,22 @@ const AuthScreen = props => {
     formIsValid: false
   });
 
-  const signupHandler = () => {
-    dispatch(
-      authActions.signup(
-        formState.inputValues.name,
+  const authHandler = () => {
+    let action;
+    if(isSignup){
+      action = authActions.signup(
+          formState.inputValues.name,
+          formState.inputValues.email,
+          formState.inputValues.password
+        );
+    }else{
+      action = authActions.login(
         formState.inputValues.email,
         formState.inputValues.password
-      )
-    );
+      );
+    }
+    dispatch(action);
+    
   };
 
   const inputChangeHandler = useCallback(
@@ -86,16 +95,19 @@ const AuthScreen = props => {
     >
       <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
         <Card style={styles.authContainer}>
-          <ScrollView>
-            <Input
-              id="name"
-              label="Name"
-              required
-              autoCapitalize="none"
-              errorText="Please enter a your name."
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />
+          <ScrollView>  
+          {isSignup?(<Input
+            id="name"
+            label="Name"
+            required
+            autoCapitalize="none"
+            errorText="Please enter your name."
+            onInputChange={inputChangeHandler}
+            initialValue=""
+          />):null}
+            
+        
+            
             <Input
               id="email"
               label="E-Mail"
@@ -120,13 +132,19 @@ const AuthScreen = props => {
               initialValue=""
             />
             <View style={styles.buttonContainer}>
-              <Button title="Login" color={Colors.primary} onPress={signupHandler} />
+              <Button
+                title={isSignup?'Sign Up':"Login"}
+                color={Colors.primary}
+                onPress={authHandler}
+              />
             </View>
             <View style={styles.buttonContainer}>
               <Button
-                title="Don't have an account? Register"
+                title={isSignup?'Login':`Don't have an account? Register`}
                 color={Colors.accent}
-                onPress={() => {}}
+                onPress={()=>{
+                  setIsSignup(prevState => ! prevState)
+                }}
               />
             </View>
           </ScrollView>
