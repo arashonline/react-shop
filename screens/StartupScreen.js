@@ -28,13 +28,18 @@ const StartupScreen = props => {
             const now = moment().format('MMMM Do YYYY, hh:mm');
             console.log('expiryDate: ', expiryDate)
             console.log('now: ', moment().format('MMMM Do YYYY, hh:mm'));
-            if(expiryDate <= now || !token || !userId){
+
+            const expirationTime = moment(expirationDate).diff(moment());
+
+            if(expirationTime <= 0 || !token || !userId){
                 props.navigation.navigate('Auth');
                 return;
             }
-
+            
+            // console.log('expiration date',expirationTime);
+            
             props.navigation.navigate('Shop');
-            dispatch(authAction.authenticate(userId,token))
+            dispatch(authAction.authenticate(userId,token,expirationTime))
         };
 
         tryLogin();
