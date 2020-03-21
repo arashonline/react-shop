@@ -18,9 +18,9 @@ export const fetchOrders = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "X-Requested-With": "XMLHttpRequest",
-          Authorization: "Bearer" + " " + token
+          "Authorization": "Bearer" + " " + token
         },
         body: JSON.stringify({
           user_id
@@ -41,8 +41,8 @@ export const fetchOrders = () => {
           new Order(
             resData[key].id,
             resData[key].order_items,
-            resData[key].totalAmount,
-            new Date(resData[key].date)
+            resData[key].total_amount,
+            resData[key].date
           )
         );
       }
@@ -81,9 +81,9 @@ export const addOrder = (cartItems, totalAmount) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: "Bearer" + " " + token
+        "Authorization": "Bearer" + " " + token
       },
       body: JSON.stringify({
         cartItems:transformedCartItems,

@@ -17,6 +17,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_PRODUCTS:
+      console.log('user_product_action: ',action);
       return {
         availableProducts: action.products ,
         userProducts: action.userProducts

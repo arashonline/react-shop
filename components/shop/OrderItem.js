@@ -25,10 +25,10 @@ const OrderItem = props => {
         <View style={styles.detailItems}>
           {props.items.map(cartItem => (
             <CartItem            
-              key={cartItem.productId}
+              key={cartItem.product_id}
               quantity={cartItem.quantity}
               amount={cartItem.sum}
-              title={cartItem.productTitle}
+              title={cartItem.product_title}
             />
           ))}
         </View>

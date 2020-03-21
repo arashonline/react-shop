@@ -14,6 +14,8 @@ const UserProductsScreen = props => {
   const userProducts = useSelector(state => state.products.userProducts);
   const dispatch = useDispatch();
 
+  
+
   const editProductHandler = id => {
     props.navigation.navigate("EditProduct", { productId: id });
   };

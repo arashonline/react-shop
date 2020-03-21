@@ -44,7 +44,9 @@ export const fetchProducts = () => {
         type: SET_PRODUCTS,
         products: loadedProducts,
         userProducts: loadedProducts.filter(
-          prod => prod.ownerId === user_id
+          prod => {
+            return (prod.ownerId.toString() === user_id.toString())
+          }
         )
       });
     } catch (err) {
@@ -61,9 +63,9 @@ export const deleteProduct = productId => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: "Bearer" + " " + token
+        "Authorization": "Bearer" + " " + token
       },
       body: JSON.stringify({
         id: productId
@@ -88,9 +90,9 @@ export const createProduct = (title, description, imageUrl, price) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: "Bearer" + " " + token
+        "Authorization": "Bearer" + " " + token
       },
       body: JSON.stringify({
         title,
@@ -132,9 +134,9 @@ export const updateProduct = (id, title, description, imageUrl) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: "Bearer" + " " + token
+        "Authorization": "Bearer" + " " + token
       },
       body: JSON.stringify({
         id,
