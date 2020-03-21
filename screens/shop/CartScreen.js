@@ -7,13 +7,33 @@ import CartItem from "../../components/shop/CartItem";
 import Card from "../../components/UI/Card";
 import * as cartActions from "../../store/actions/cart";
 import * as ordersActions from "../../store/actions/orders";
+import * as authActions from "../../store/actions/auth";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from "../../components/UI/HeaderButton";
 
+const isLoggedInHandler = async (props) => {
+  const action = authActions.isLoggedIn(props);
+  const dispatch = useDispatch();
+  try{
+    const isLoggedIn = await dispatch(action);
+    
+  }catch (err) {
+    console.log(err.message); 
+  }
+}
+
 const CartScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState();
+
+ 
+
+ if(!isLoggedIn){
+  isLoggedInHandler(props);
+  setIsLoggedIn(true);
+ }
   
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
@@ -47,6 +67,7 @@ const CartScreen = props => {
 
   
   if(error){
+    console.log(error);
     return (<View style={styles.centered}>
       <Text>Some error occurred!</Text>
       <Button title="Try again" onPress={sendOrderHandler} color={Colors.primary}/>

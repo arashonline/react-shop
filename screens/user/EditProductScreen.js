@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useReducer } from "react";
 import {
   View,
+  Button,
+  Text,
   ScrollView,
   StyleSheet,
   Platform,
@@ -67,12 +69,6 @@ const EditProductScreen = props => {
     formIsValid: editedProduct ? true : false
   });
 
-  useEffect(()=>{
-    if(error){
-      Alert.alert('An error occurred!', error,[{text:'OK'}])
-    }
-  },[error]);
-
   const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong input!", "Please check the errors in the form.", [
@@ -127,13 +123,18 @@ const EditProductScreen = props => {
     [dispatchFormState]
   );
 
+  useEffect(()=>{
+    if(error){
+      Alert.alert('An error occurred!',error, [{text:'OK'}])
+    }
+  },[error])
   
-  if(error){
-    return (<View style={styles.centered}>
-      <Text>Some error occurred!</Text>
-      <Button title="Try again" onPress={loadProducts} color={Colors.primary}/>
-    </View>)
-  }
+  // if(error){
+  //   return (<View style={styles.centered}>
+  //     <Text>Some error occurred!</Text>
+  //     <Button title="Try again" onPress={loadProducts} color={Colors.primary}/>
+  //   </View>)
+  // }
 
   if (isLoading) {
     return (<View style={styles.centered}>

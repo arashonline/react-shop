@@ -1,10 +1,9 @@
-POST http://192.168.1.107:7009/api/auth/signup?XDEBUG_SESSION_START=12235
+POST http://192.168.1.107:7010/api/register?XDEBUG_SESSION_START=18193
 Content-Type: application/json
-X-Requested-With: XMLHttpRequest
 
 {
     "name":"arash",
-    "email":"arash1@admin.com",
-    "password":"123456",
-    "password_confirmation":"123456"
+    "email":"arashb@arash.co",
+    "password":"12345",
+    "c_password":"12345"
 }

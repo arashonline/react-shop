@@ -7,9 +7,11 @@ import {
 } from "../actions/products";
 import Product from "../../models/product";
 
+let userId = '';
+
 const initialState = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter(prod => prod.ownerId === "1")
+  availableProducts: [],
+  userProducts: []
 };
 
 export default (state = initialState, action) => {
@@ -17,12 +19,12 @@ export default (state = initialState, action) => {
     case SET_PRODUCTS:
       return {
         availableProducts: action.products ,
-        userProducts: action.products.filter(prod => prod.ownerId === "1")
+        userProducts: action.userProducts
       };
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.productData.id,
-        "u1",
+        action.productData.ownerId,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,

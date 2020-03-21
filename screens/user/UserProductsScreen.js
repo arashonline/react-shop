@@ -44,12 +44,12 @@ const UserProductsScreen = props => {
     ]);
   };
 
-  if(error){
-    return (<View style={styles.centered}>
-      <Text>Some error occurred!</Text>
-      <Button title="Try again" onPress={loadProducts} color={Colors.primary}/>
-    </View>)
-  }
+  // if(error){
+  //   return (<View style={styles.centered}>
+  //     <Text>Some error occurred!</Text>
+  //     <Button title="Try again" onPress={loadProducts} color={Colors.primary}/>
+  //   </View>)
+  // }
 
   if (isLoading) {
     return (<View style={styles.centered}>

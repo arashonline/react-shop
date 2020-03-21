@@ -3,32 +3,39 @@ import Order from "../../models/order";
 export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
 
-// const createOrderUrl = "http://192.168.1.107:7009/api/order/add?XDEBUG_SESSION_START=14982";
-const createOrderUrl = "http://192.168.1.107:7009/api/order/add";
-const getOrdersUrl = "http://192.168.1.107:7009/api/orders?XDEBUG_SESSION_START=14982";
+// const createOrderUrl = "http://192.168.1.107:7010/api/order/add?XDEBUG_SESSION_START=15072";
+const createOrderUrl =
+  "http://192.168.1.107:7010/api/order/add?XDEBUG_SESSION_START=15072";
+const getOrdersUrl =
+  "http://192.168.1.107:7010/api/orders?XDEBUG_SESSION_START=15072";
 
 export const fetchOrders = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
+      const token = getState().auth.token;
+      const user_id = getState().auth.userId;
       const response = await fetch(getOrdersUrl, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          Authorization: "Bearer" + " " + token
         },
         body: JSON.stringify({
-          user_id: 1
+          user_id
         })
       });
 
       if (!response.ok) {
-          console.log(response.json())
+        console.log(response.json());
         throw new Error("Something went wrong!");
       }
 
       const resData = await response.json();
       const loadedOrders = [];
-    
-      console.log('resData',resData);
+
+      console.log("resData", resData);
       for (const key in resData) {
         loadedOrders.push(
           new Order(
@@ -40,7 +47,7 @@ export const fetchOrders = () => {
         );
       }
 
-      console.log('loadedOrders',loadedOrders);
+      console.log("loadedOrders", loadedOrders);
 
       dispatch({ type: SET_ORDERS, orders: loadedOrders });
     } catch (err) {
@@ -51,25 +58,45 @@ export const fetchOrders = () => {
 };
 
 export const addOrder = (cartItems, totalAmount) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const user_id = getState().auth.userId;
+
+    const transformedCartItems = [];
+    for (const key in cartItems) {
+      transformedCartItems.push({
+        product_id: cartItems[key].productId,
+        product_title: cartItems[key].productTitle,
+        product_price: cartItems[key].productPrice,
+        quantity: cartItems[key].quantity,
+        sum: cartItems[key].sum
+      });
+    }
+
+    console.log("cartItems: ", cartItems);
+    console.log("transformedCartItems: ", transformedCartItems);
+
     const date = new Date();
     const response = await fetch(createOrderUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        Authorization: "Bearer" + " " + token
       },
       body: JSON.stringify({
-        cartItems,
-        totalAmount,
+        cartItems:transformedCartItems,
+        total_amount: totalAmount,
         date: date.toISOString()
       })
     });
 
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-
     const resData = await response.json();
+    if (!response.ok) {
+      throw new Error(resData.message);
+    }
+    console.log('here');
     dispatch({
       type: ADD_ORDER,
       orderData: {
