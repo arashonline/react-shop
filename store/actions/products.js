@@ -45,7 +45,7 @@ export const fetchProducts = () => {
         products: loadedProducts,
         userProducts: loadedProducts.filter(
           prod => {
-            return (prod.ownerId.toString() === user_id.toString())
+            return (user_id && prod.ownerId.toString() === user_id.toString())
           }
         )
       });
